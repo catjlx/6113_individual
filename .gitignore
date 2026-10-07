@@ -1,0 +1,21 @@
+# secrets: never commit these
+.env
+.env.*
+!.env.example
+
+# dependencies and build output
+node_modules/
+artifacts/
+cache/
+typechain-types/
+coverage/
+coverage.json
+
+# local database (created by the backend at runtime)
+backend/data/*.db
+backend/data/*.db-journal
+
+# OS / editor
+.DS_Store
+.vscode/
+*.log
