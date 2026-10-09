@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rental Deposit Escrow</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">&#9939;</span>
+      <h1>Rental Deposit Escrow</h1>
+    </div>
+    <div class="topbar-right">
+      <span id="network-badge" class="badge hidden"></span>
+      <div id="balance-box" class="balance hidden"></div>
+      <div id="account-box">
+        <button id="connect-btn" class="btn primary" type="button">Connect MetaMask</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="banner" class="banner hidden" role="alert"></div>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <h2>Leases</h2>
+        <button id="new-lease-btn" class="btn small primary hidden" type="button">+ New lease</button>
+      </div>
+      <ul id="lease-list" class="lease-list">
+        <li class="empty">Connect your wallet to see your leases.</li>
+      </ul>
+    </aside>
+
+    <section id="content" class="content" aria-live="polite"></section>
+  </main>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <script src="/vendor/ethers.umd.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
