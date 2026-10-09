@@ -203,6 +203,11 @@ body.busy .btn { pointer-events: none; opacity: 0.6; }
 .inline input { flex: 1; }
 .checkbox { display: flex; gap: 8px; align-items: flex-start; }
 
+/* custom file picker: the native input is hidden so the button text stays in English */
+.file-native { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.file-picker { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.file-name { word-break: break-all; }
+
 .errors { margin: 0; padding: 10px 14px 10px 30px; background: #fde8e8; border-radius: 8px; color: var(--danger); }
 
 /* ---------- tables ---------- */

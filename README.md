@@ -109,7 +109,7 @@ Optional reports: `npm run gas` (gas per function) and `npm run coverage` (test 
 5. Start the backend: `npm start`, then open <http://localhost:3000>.
 
 If you restart `npm run node`, the chain starts from scratch: redeploy, and in MetaMask use
-Settings → Advanced → "Clear activity tab data" so its transaction counter resets.
+Settings → Developer tools → “Delete activity and nonce data” so its transaction counter resets.
 
 ## Deploy to Sepolia
 
@@ -135,7 +135,7 @@ The page shows only what the current account can do. Switching the account in Me
 2. **Tenant** (Account 2): open the lease, download the report, tick the acknowledgement and pay the deposit.
 3. Wait for the lease to end (the page shows a countdown). Then **landlord**: *Propose deduction* with an amount and an
    evidence file, or *Return full deposit*.
-4. **Tenant**: *Accept*, *Reject*, or do nothing. After the response window, *Apply default outcome* settles it.
+4. **Tenant**: *Accept*, *Reject*, or do nothing. After the response window, anyone can press *Finalize* to record the default result (the deduction applies).
 5. If rejected, **arbiter** (Account 3): review the files and submit a ruling.
 6. Each party uses the *Withdraw* button at the top to collect their share.
 

@@ -636,6 +636,23 @@
     return h("div", { class: "field" }, h("label", {}, label), input, hint ? h("span", { class: "hint" }, hint) : null);
   }
 
+  // The browser draws the text of a native file input in the browser's own language ("选择文件" on a
+  // Chinese browser). To keep the page in English, hide the native input and show our own button and
+  // file name. The real input stays in the DOM, so form.elements and .files keep working.
+  const FILE_ACCEPT = ".png,.jpg,.jpeg,.pdf,.txt";
+
+  function fileField(name) {
+    const attrs = { type: "file", class: "file-native", accept: FILE_ACCEPT, tabindex: "-1" };
+    if (name) attrs.name = name;
+    const input = h("input", attrs);
+    const label = h("span", { class: "muted file-name" }, "No file chosen");
+    const choose = h("button", { class: "btn", type: "button", onclick: () => input.click() }, "Choose file");
+    input.addEventListener("change", () => {
+      label.textContent = input.files[0] ? input.files[0].name : "No file chosen";
+    });
+    return { input, wrap: h("div", { class: "file-picker" }, input, choose, label) };
+  }
+
   function renderNewLease() {
     clearSelection();
     const errors = h("ul", { class: "errors hidden" });
@@ -662,7 +679,7 @@
       ),
       field(
         "Move-in condition report",
-        h("input", { type: "file", name: "report", accept: ".png,.jpg,.jpeg,.pdf,.txt" }),
+        fileField("report").wrap,
         "PNG, JPEG, PDF or text, up to 10 MB. Only its SHA-256 hash goes on-chain; the file stays private."
       ),
       errors,
@@ -895,7 +912,12 @@
     const note = (text) => card.append(h("p", { class: "muted" }, text));
     const button = (label, className, onclick) => h("button", { class: `btn ${className}`.trim(), type: "button", onclick }, label);
     const row = (...buttons) => card.append(h("div", { class: "actions-row" }, ...buttons));
-    const timeoutButton = (label) => button(label, "primary", () => doAction("Apply default outcome", "claimByTimeout", [lease.id]));
+    // Anyone may press this once a deadline has passed. It does not decide anything: the outcome was already
+    // fixed by the deadline. A contract cannot run by itself, so someone has to submit the transaction.
+    const timeoutButton = (label) => {
+      note("Anyone can press this button, not only the party who stayed silent. It does not change the outcome; it only records the result the deadline already decided, because a smart contract cannot run by itself and needs someone to send this transaction.");
+      return button(label, "primary", () => doAction("Finalize lease", "claimByTimeout", [lease.id]));
+    };
 
     switch (lease.status) {
       case S.Created:
@@ -917,8 +939,8 @@
             note("Waiting for the landlord to return the deposit or propose a deduction. If the landlord stays silent until the proposal window closes, the tenant receives the full deposit.");
           }
         } else {
-          note("The proposal window closed without a deduction proposal. By the default rule the tenant receives the full deposit.");
-          row(timeoutButton("Apply default outcome (full refund)"));
+          note("The landlord did not propose a deduction before the proposal window closed. By the default rule the tenant receives the full deposit.");
+          row(timeoutButton("Finalize: full refund to tenant"));
         }
         break;
 
@@ -936,8 +958,8 @@
             note("Waiting for the tenant to accept or reject. If the tenant stays silent, the proposed deduction applies.");
           }
         } else {
-          note("The tenant did not respond in time. By the default rule the deduction applies as proposed.");
-          row(timeoutButton("Apply default outcome (deduction applies)"));
+          note("The tenant did not accept or reject before the response window closed. By the default rule the proposed deduction applies.");
+          row(timeoutButton("Finalize: apply the proposed deduction"));
         }
         break;
       }
@@ -989,7 +1011,8 @@
 
   function buildProposeForm(lease) {
     const amount = h("input", { type: "text", inputmode: "decimal", placeholder: "e.g. 0.002" });
-    const file = h("input", { type: "file", accept: ".png,.jpg,.jpeg,.pdf,.txt" });
+    const picker = fileField();
+    const file = picker.input;
     const errors = h("ul", { class: "errors hidden" });
 
     const submit = () =>
@@ -1011,7 +1034,7 @@
       "div",
       { class: "subform" },
       h("h4", {}, "Propose a deduction"),
-      h("div", { class: "form" }, field("Amount to keep (ETH)", amount, `At most ${fmtEth(lease.depositAmount)} ETH.`), field("Evidence (photos, invoice…)", file, "Only the file's hash goes on-chain."), errors, h("div", { class: "actions-row" }, h("button", { class: "btn primary", type: "button", onclick: submit }, "Propose deduction")))
+      h("div", { class: "form" }, field("Amount to keep (ETH)", amount, `At most ${fmtEth(lease.depositAmount)} ETH.`), field("Evidence (photos, invoice…)", picker.wrap, "Only the file's hash goes on-chain."), errors, h("div", { class: "actions-row" }, h("button", { class: "btn primary", type: "button", onclick: submit }, "Propose deduction")))
     );
   }
 
