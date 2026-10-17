@@ -4,13 +4,6 @@ SC6113 individual assignment: a financial decentralized application that holds a
 smart contract, so the landlord can no longer keep it arbitrarily and the tenant can no longer be left waiting
 indefinitely.
 
-> **Project status**
-> - [x] Smart contract (`contracts/RentalDepositEscrow.sol`) and Hardhat test suite (73 tests)
-> - [x] Deployment script
-> - [x] Node.js (Express) backend: event indexer, MetaMask-signature login, evidence files, history API
-> - [x] Web frontend with MetaMask
-> - [ ] Report and screenshots
-
 ## Problem
 
 Rental deposits are normally handed to the landlord. Disputes about deductions are common, the refund timing is
