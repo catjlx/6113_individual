@@ -125,6 +125,13 @@ Settings → Developer tools → “Delete activity and nonce data” so its tra
    This file is separate from the root `.env` on purpose, so the backend never sees the deployer key.
 6. Start it: `npm start` and open <http://localhost:3000> in the browser that has MetaMask.
 
+## Live deployment (Sepolia)
+
+- Contract: `0x5dd4eb846e1b718FA639c93Cbd19E1CC47EB9AE1` ([Etherscan](https://sepolia.etherscan.io/address/0x5dd4eb846e1b718FA639c93Cbd19E1CC47EB9AE1)), deployed in block 11934665
+- Platform arbiter (deployer): `0xBE138BddB994F4768d09F8AFD23cA7a235110897`
+- Deployment record (address, ABI, deploy block): `deployments/sepolia.json`
+- All five settlement paths were demonstrated on this deployment with three throw-away test accounts.
+
 ## Demo walkthrough (one person, three MetaMask accounts)
 
 The page shows only what the current account can do. Switching the account in MetaMask reloads the page.
