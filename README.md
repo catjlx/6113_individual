@@ -122,7 +122,8 @@ Settings → Developer tools → “Delete activity and nonce data” so its tra
 
 - Contract: `0x5dd4eb846e1b718FA639c93Cbd19E1CC47EB9AE1` ([Etherscan](https://sepolia.etherscan.io/address/0x5dd4eb846e1b718FA639c93Cbd19E1CC47EB9AE1)), deployed in block 11934665
 - Platform arbiter (deployer): `0xBE138BddB994F4768d09F8AFD23cA7a235110897`
-- Deployment record (address, ABI, deploy block): `deployments/sepolia.json`
+- Live web app (Render): <https://six113-individual-v0b3.onrender.com> (free tier: it sleeps when idle, so the first load can take about a minute)
+- Deployment record (address, ABI, deploy block): `deployments/sepolia.json`; the ABI alone is in `abi/RentalDepositEscrow.abi.json`
 - All five settlement paths were demonstrated on this deployment with three throw-away test accounts.
 
 ## Demo walkthrough (one person, three MetaMask accounts)
@@ -166,6 +167,7 @@ contracts/
 test/RentalDepositEscrow.test.js Hardhat tests
 scripts/deploy.js                deployment script
 deployments/                     <network>.json written by the deploy script
+abi/                             contract ABI as a standalone JSON file
 backend/
   config.js db.js                configuration, SQLite schema and queries
   indexer.js                     polls contract events, keeps the index in sync
